@@ -5,12 +5,18 @@ function Produto(descricao, valorCompra, valorVenda, estoqueInicial) {
     this.estoque = estoqueInicial;
 }
 
+/**
+ *
+ * @param searchValue
+ * @returns {object} {Produto}
+ */
+Array.prototype.buscarProduto = function (searchValue) {
+    var produtoRetorno = null;
 
-Array.prototype.find = function (searchValue) {
-    if (typeof this === Produto && this.length > 0) {
-        for (var i = 0; i < this.length; i++) {
-            if (this[i].descricao === searchValue)
-                return this[i];
-        }
-    }
+    this.forEach(function (produto) {
+        if (produto.descricao === searchValue)
+            produtoRetorno = produto;
+    });
+
+    return produtoRetorno;
 }

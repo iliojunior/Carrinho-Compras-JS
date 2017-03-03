@@ -7,16 +7,13 @@ var listaVendas = [];
  *@param listaProdutos
  *@return dedscricaoProduto
  */
-function solicitarProduto(listaProdutos) {
-    descricaoProduto = prompt("Informe o descricaoProduto", "");
+function solicitarProduto() {
+    if (listaProdutos.isEmpty())
+        return null;
 
-    listaProdutos.forEach(function (item) {
-        if (item == descricaoProduto) {
-            return descricaoProduto;
-        } else {
-            return null;
-        }
-    });
+    var descricaoProduto = prompt("Informe o Produto: ", "");
+
+    return listaProdutos.buscarProduto(descricaoProduto);
 }
 /**
  * Realiza o cadastro de um novo descricaoProduto
@@ -34,11 +31,11 @@ function cadastrarProduto(descricao, valorCompra, valorVenda, estoqueInicial) {
 /**
  * Realiza o cadastro de uma nova compra
  */
-function cadastrarCompra() {
-    produto = solicitarProduto(listaProdutos);
-    if(produto == null){
-      alert("Produto não cadastrado");
+function cadastrarCompra(produto) {
+    if (!produto) {
+        alert("Produto não cadastrado");
     }
+
     quantidadeCompra = prompt("Informe a quantidade comprada do produto \"" + produto.descricao + "\": ", "");
     realizarCompra = descricaoProduto.estoque = parseInt(descricaoProduto.estoque) + parseInt(quantidadeCompra);
 
@@ -52,8 +49,8 @@ function cadastrarCompra() {
  */
 function realizarVenda() {
     produto = solicitarProduto(listaProdutos);
-    if(produto == null){
-      alert("Produto não cadastrado");
+    if (produto == null) {
+        alert("Produto não cadastrado");
     }
     quantidadeVenda = prompt("Informe a quantidade a ser vendida do produto \"" + produto.descricao + "\": ");
 
@@ -118,11 +115,11 @@ function aplicacao() {
     do {
 
         var mensage = "1 - Produto   \n" +
-                      "2 - compra    \n" +
-                      "3 - venda     \n" +
-                      "4 - relatorio \n" +
-                      "0 - sair      \n" +
-                      "Selecione uma opcao";
+            "2 - compra    \n" +
+            "3 - venda     \n" +
+            "4 - relatorio \n" +
+            "0 - sair      \n" +
+            "Selecione uma opcao";
 
         opcao = prompt(mensage, "");
 
@@ -133,10 +130,12 @@ function aplicacao() {
                 var valorCompra = prompt("Informe o valor de compra: ", "");
                 var valorVenda = prompt("Informe o valor de venda: ", "");
                 var estoque = prompt("Informe o estoque inicial: ");
+
                 cadastrarProduto(descricaoProduto, valorCompra, valorVenda, estoque);
                 break;
             case 2:
-                cadastrarCompra();
+                var produto = solicitarProduto();
+                cadastrarCompra(produto);
                 break;
             case 3:
                 realizarVenda();
