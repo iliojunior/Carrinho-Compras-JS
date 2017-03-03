@@ -49,7 +49,17 @@ function cadastrarVenda() {
  * Gera o relatório dos produtos cadastrados
  */
 function gerarRelatorioProdutos() {
+    var mensagemSaida = "Lista de Produtos \n";
 
+    listaProdutos.forEach(function (item) {
+        mensagemSaida += "Descrição: " + item.descricao;
+        mensagemSaida += " | Compra R$: " + item.valorCompra;
+        mensagemSaida += " | Venda R$: " + item.valorVenda;
+        mensagemSaida += " | Estoque: " + item.estoque;
+        mensagemSaida += "\n";
+    });
+
+    alert(mensagemSaida);
 }
 
 /**
