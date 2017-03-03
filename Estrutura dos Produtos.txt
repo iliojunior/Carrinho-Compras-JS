@@ -1,0 +1,14 @@
+Produto:
+
+-Descrição : string
+-Valor de Venda : double
+-Valor de Compra : double
+-Estoque : double
+
+
+{
+  descricao : "Descrição do Produto",
+  valor_compra : 10,
+  valor_venda : 20,
+  estoque : 15
+}
