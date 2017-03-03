@@ -62,6 +62,10 @@ function aplicacao() {
         opcao = parseInt(opcao);
         switch (opcao) {
             case 1:
+                var descricaoProduto = prompt("Informe a descricao do produto: ", "");
+                var valorCompra = prompt("Informe o valor de compra: ", "");
+                var valorVenda = prompt("Informe o valor de venda: ", "");
+                var estoque = prompt("Informe o estoque inicial: ");
                 cadastrarProduto();
                 break;
             case 2:
