@@ -53,14 +53,22 @@ function cadastrarProduto(descricao, valorCompra, valorVenda, estoqueInicial) {
  */
 function cadastrarCompra(solicitarProduto(listaProdutos)) {
     quantidadeCompra = prompt("Informe a quantidade comprada do produto: ","")
-    produto.estoque = parseInt(produto.estoque) + parseInt(quantidadeCompra);
+    realizarCompra = produto.estoque = parseInt(produto.estoque) + parseInt(quantidadeCompra);
+    listaCompras.push(realizarCompra);
 }
 
 /**
- * Realiza o cadastro de uma nova venda
+ * Realiza o uma nova venda
  */
-function cadastrarVenda() {
-
+function realizarVenda(solicitarProduto(listaProdutos)) {
+    quantidadeVenda = prompt("Informe a quantidade a ser vendida: ");
+    if(parseInt(realizarVenda) > produto.estoque){
+      alert("Não possui essa quantidade em estoque");
+    }else{
+      realizarVenda = produto.estoque = produto.estoque - parseInt(quantidadeVenda);
+      listaVendas.push(realizarVenda);
+      alert("Venda efetuada com sucesso");
+    }
 }
 
 /**
@@ -84,14 +92,25 @@ function gerarRelatorioProdutos() {
  * Gera o relatório das compras realizadas
  */
 function gerarRelatorioCompras() {
+  var mensagemSaida = "Lista de Compras \n";
 
+  listaCompras.forEach(function (item) {
+      mensagemSaida += "Quantidade de comprada: " + item.quantidadeCompra;
+      mensagemSaida += "\n";
+  });
+
+  alert(mensagemSaida);
 }
 
 /**
  * Gera o relatório das vendas realizadas
  */
 function gerarRelatorioVendas() {
-
+  listaVendas.forEach(function (item) {
+      mensagemSaida += "Quantidade de vendas: " + item.quantidadeVenda;
+      mensagemSaida += "\n";
+  });
+  alert(mensagemSaida);
 }
 
 /**
@@ -122,7 +141,7 @@ function aplicacao() {
                 cadastrarCompra(solicitarProduto(listaProdutos));
                 break;
             case 3:
-                cadastrarVenda();
+                realizarVenda(solicitarProduto(listaProdutos));
                 break;
 
             case 4:
