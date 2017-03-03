@@ -5,9 +5,6 @@ function Produto(descricao, valorCompra, valorVenda, estoqueInicial) {
     this.estoque = estoqueInicial;
 }
 
-function Produto(descricao) {
-    this(descricao, 0, 0, 0);
-}
 
 Array.prototype.find = function (searchValue) {
     if (typeof this === Produto && this.length > 0) {

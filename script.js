@@ -5,7 +5,7 @@ var listaVendas = [];
 /**
  *Faz uma busca na lista de produtos.
  *@param listaProdutos
- *@return descricaoProduto
+ *@return dedscricaoProduto
  */
 function solicitarProduto(listaProdutos) {
     descricaoProduto = prompt("Informe o descricaoProduto", "");
@@ -14,7 +14,7 @@ function solicitarProduto(listaProdutos) {
         if (item == descricaoProduto) {
             return descricaoProduto;
         } else {
-            alert("Produto não cadastrado");
+            return null;
         }
     });
 }
@@ -34,7 +34,11 @@ function cadastrarProduto(descricao, valorCompra, valorVenda, estoqueInicial) {
 /**
  * Realiza o cadastro de uma nova compra
  */
-function cadastrarCompra(produto) {
+function cadastrarCompra() {
+    produto = solicitarProduto(listaProdutos);
+    if(produto == null){
+      alert("Produto não cadastrado");
+    }
     quantidadeCompra = prompt("Informe a quantidade comprada do produto \"" + produto.descricao + "\": ", "");
     realizarCompra = descricaoProduto.estoque = parseInt(descricaoProduto.estoque) + parseInt(quantidadeCompra);
 
@@ -46,7 +50,11 @@ function cadastrarCompra(produto) {
  * Realiza o uma nova venda
  * @returns {Boolean}
  */
-function realizarVenda(produto) {
+function realizarVenda() {
+    produto = solicitarProduto(listaProdutos);
+    if(produto == null){
+      alert("Produto não cadastrado");
+    }
     quantidadeVenda = prompt("Informe a quantidade a ser vendida do produto \"" + produto.descricao + "\": ");
 
     quantidadeVenda = parseFloat(quantidadeVenda);
@@ -109,29 +117,29 @@ function gerarRelatorioVendas() {
 function aplicacao() {
     do {
 
-        var mensage = "1 - descricaoProduto   \n" +
-            "2 - compra    \n" +
-            "3 - venda     \n" +
-            "4 - relatorio \n" +
-            "0 - sair      \n" +
-            "Selecione uma opcao";
+        var mensage = "1 - Produto   \n" +
+                      "2 - compra    \n" +
+                      "3 - venda     \n" +
+                      "4 - relatorio \n" +
+                      "0 - sair      \n" +
+                      "Selecione uma opcao";
 
         opcao = prompt(mensage, "");
 
         opcao = parseInt(opcao);
         switch (opcao) {
             case 1:
-                var descricaoProduto = prompt("Informe a descricao do descricaoProduto: ", "");
+                var descricaoProduto = prompt("Informe a descricao do Produto: ", "");
                 var valorCompra = prompt("Informe o valor de compra: ", "");
                 var valorVenda = prompt("Informe o valor de venda: ", "");
                 var estoque = prompt("Informe o estoque inicial: ");
                 cadastrarProduto(descricaoProduto, valorCompra, valorVenda, estoque);
                 break;
             case 2:
-                cadastrarCompra(solicitarProduto(listaProdutos));
+                cadastrarCompra();
                 break;
             case 3:
-                realizarVenda(solicitarProduto(listaProdutos));
+                realizarVenda();
                 break;
 
             case 4:
