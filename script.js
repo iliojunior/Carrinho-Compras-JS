@@ -18,6 +18,23 @@ function criarProduto(descricao, valorCompra, valorVenda, estoqueInicial) {
         estoque: estoqueInicial
     };
 }
+
+/**
+*Faz uma busca na lista de produtos.
+*@param listaProdutos
+*@return produto
+*/
+solicitarProduto(listaProdutos){
+    produto = prompt("Infore o produto","");
+
+  forEach(listaProdutos: item){
+        if(item == produto){
+          return produto;
+        }else{
+          alert("Produto não cadastrado");
+        }
+    }
+}
 /**
  * Realiza o cadastro de um novo produto
  * @param {string} descricao - Descrição do produto a ser cadastrado
@@ -34,8 +51,9 @@ function cadastrarProduto(descricao, valorCompra, valorVenda, estoqueInicial) {
 /**
  * Realiza o cadastro de uma nova compra
  */
-function cadastrarCompra() {
-
+function cadastrarCompra(solicitarProduto(listaProdutos)) {
+    quantidadeCompra = prompt("Informe a quantidade comprada do produto: ","")
+    produto.estoque = parseInt(produto.estoque) + parseInt(quantidadeCompra);
 }
 
 /**
@@ -101,7 +119,7 @@ function aplicacao() {
                 cadastrarProduto(descricaoProduto, valorCompra, valorVenda, estoque);
                 break;
             case 2:
-                cadastrarCompra();
+                cadastrarCompra(solicitarProduto(listaProdutos));
                 break;
             case 3:
                 cadastrarVenda();
