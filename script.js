@@ -3,72 +3,62 @@ var listaCompras = [];
 var listaVendas = [];
 
 /**
- * Cria um novo Produto
- * @param descricao
- * @param valorCompra
- * @param valorVenda
- * @param estoqueInicial
- * @returns {{descricao: *, valorCompra: *, valorVenda: *, estoque: *}}
+ *Faz uma busca na lista de produtos.
+ *@param listaProdutos
+ *@return descricaoProduto
  */
-function criarProduto(descricao, valorCompra, valorVenda, estoqueInicial) {
-    return {
-        descricao: descricao,
-        valorCompra: valorCompra,
-        valorVenda: valorVenda,
-        estoque: estoqueInicial
-    };
-}
+function solicitarProduto(listaProdutos) {
+    descricaoProduto = prompt("Informe o descricaoProduto", "");
 
-/**
-*Faz uma busca na lista de produtos.
-*@param listaProdutos
-*@return produto
-*/
-solicitarProduto(listaProdutos){
-    produto = prompt("Infore o produto","");
-
-  forEach(listaProdutos: item){
-        if(item == produto){
-          return produto;
-        }else{
-          alert("Produto não cadastrado");
+    listaProdutos.forEach(function (item) {
+        if (item == descricaoProduto) {
+            return descricaoProduto;
+        } else {
+            alert("Produto não cadastrado");
         }
-    }
+    });
 }
 /**
- * Realiza o cadastro de um novo produto
- * @param {string} descricao - Descrição do produto a ser cadastrado
- * @param {double} valorCompra - Valor de compra do produto a ser cadastrado
- * @param {double} valorVenda - Valor de Venda do produto a ser cadastrado
- * @param {double} estoqueInicial - Estoque inicial do produto a ser cadastrado
+ * Realiza o cadastro de um novo descricaoProduto
+ * @param {string} descricao - Descrição do descricaoProduto a ser cadastrado
+ * @param {double} valorCompra - Valor de compra do descricaoProduto a ser cadastrado
+ * @param {double} valorVenda - Valor de Venda do descricaoProduto a ser cadastrado
+ * @param {double} estoqueInicial - Estoque inicial do descricaoProduto a ser cadastrado
  * @returns {void}
  */
 function cadastrarProduto(descricao, valorCompra, valorVenda, estoqueInicial) {
-    var novoProduto = criarProduto(descricao, valorCompra, valorVenda, estoqueInicial);
+    var novoProduto = new Produto(descricao, valorCompra, valorVenda, estoqueInicial);
     listaProdutos.push(novoProduto);
 }
 
 /**
  * Realiza o cadastro de uma nova compra
  */
-function cadastrarCompra(solicitarProduto(listaProdutos)) {
-    quantidadeCompra = prompt("Informe a quantidade comprada do produto: ","")
-    realizarCompra = produto.estoque = parseInt(produto.estoque) + parseInt(quantidadeCompra);
+function cadastrarCompra(produto) {
+    quantidadeCompra = prompt("Informe a quantidade comprada do produto \"" + produto.descricao + "\": ", "");
+    realizarCompra = descricaoProduto.estoque = parseInt(descricaoProduto.estoque) + parseInt(quantidadeCompra);
+
+    produto.estoque += quantidadeCompra;
     listaCompras.push(realizarCompra);
 }
 
 /**
  * Realiza o uma nova venda
+ * @returns {Boolean}
  */
-function realizarVenda(solicitarProduto(listaProdutos)) {
-    quantidadeVenda = prompt("Informe a quantidade a ser vendida: ");
-    if(parseInt(realizarVenda) > produto.estoque){
-      alert("Não possui essa quantidade em estoque");
-    }else{
-      realizarVenda = produto.estoque = produto.estoque - parseInt(quantidadeVenda);
-      listaVendas.push(realizarVenda);
-      alert("Venda efetuada com sucesso");
+function realizarVenda(produto) {
+    quantidadeVenda = prompt("Informe a quantidade a ser vendida do produto \"" + produto.descricao + "\": ");
+
+    quantidadeVenda = parseFloat(quantidadeVenda);
+
+    if (quantidadeVenda > descricaoProduto.estoque) {
+        alert("Não possui essa quantidade em estoque");
+        return false;
     }
+
+    produto.estoque -= quantidadeVenda;
+    listaVendas.push(realizarVenda);
+    alert("Venda efetuada com sucesso");
 }
 
 /**
@@ -92,25 +82,25 @@ function gerarRelatorioProdutos() {
  * Gera o relatório das compras realizadas
  */
 function gerarRelatorioCompras() {
-  var mensagemSaida = "Lista de Compras \n";
+    var mensagemSaida = "Lista de Compras \n";
 
-  listaCompras.forEach(function (item) {
-      mensagemSaida += "Quantidade de comprada: " + item.quantidadeCompra;
-      mensagemSaida += "\n";
-  });
+    listaCompras.forEach(function (item) {
+        mensagemSaida += "Quantidade de comprada: " + item.quantidadeCompra;
+        mensagemSaida += "\n";
+    });
 
-  alert(mensagemSaida);
+    alert(mensagemSaida);
 }
 
 /**
  * Gera o relatório das vendas realizadas
  */
 function gerarRelatorioVendas() {
-  listaVendas.forEach(function (item) {
-      mensagemSaida += "Quantidade de vendas: " + item.quantidadeVenda;
-      mensagemSaida += "\n";
-  });
-  alert(mensagemSaida);
+    listaVendas.forEach(function (item) {
+        mensagemSaida += "Quantidade de vendas: " + item.quantidadeVenda;
+        mensagemSaida += "\n";
+    });
+    alert(mensagemSaida);
 }
 
 /**
@@ -119,7 +109,7 @@ function gerarRelatorioVendas() {
 function aplicacao() {
     do {
 
-        var mensage = "1 - produto   \n" +
+        var mensage = "1 - descricaoProduto   \n" +
             "2 - compra    \n" +
             "3 - venda     \n" +
             "4 - relatorio \n" +
@@ -131,7 +121,7 @@ function aplicacao() {
         opcao = parseInt(opcao);
         switch (opcao) {
             case 1:
-                var descricaoProduto = prompt("Informe a descricao do produto: ", "");
+                var descricaoProduto = prompt("Informe a descricao do descricaoProduto: ", "");
                 var valorCompra = prompt("Informe o valor de compra: ", "");
                 var valorVenda = prompt("Informe o valor de venda: ", "");
                 var estoque = prompt("Informe o estoque inicial: ");
