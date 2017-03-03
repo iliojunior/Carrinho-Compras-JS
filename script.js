@@ -3,10 +3,32 @@ var listaCompras = [];
 var listaVendas = [];
 
 /**
- * Realiza o cadastro de um novo produto
+ * Cria um novo Produto
+ * @param descricao
+ * @param valorCompra
+ * @param valorVenda
+ * @param estoqueInicial
+ * @returns {{descricao: *, valorCompra: *, valorVenda: *, estoque: *}}
  */
-function cadastrarProduto() {
-
+function criarProduto(descricao, valorCompra, valorVenda, estoqueInicial) {
+    return {
+        descricao: descricao,
+        valorCompra: valorCompra,
+        valorVenda: valorVenda,
+        estoque: estoqueInicial
+    };
+}
+/**
+ * Realiza o cadastro de um novo produto
+ * @param {string} descricao - Descrição do produto a ser cadastrado
+ * @param {double} valorCompra - Valor de compra do produto a ser cadastrado
+ * @param {double} valorVenda - Valor de Venda do produto a ser cadastrado
+ * @param {double} estoqueInicial - Estoque inicial do produto a ser cadastrado
+ * @returns {void}
+ */
+function cadastrarProduto(descricao, valorCompra, valorVenda, estoqueInicial) {
+    var novoProduto = criarProduto(descricao, valorCompra, valorVenda, estoqueInicial);
+    listaProdutos.push(novoProduto);
 }
 
 /**
@@ -66,7 +88,7 @@ function aplicacao() {
                 var valorCompra = prompt("Informe o valor de compra: ", "");
                 var valorVenda = prompt("Informe o valor de venda: ", "");
                 var estoque = prompt("Informe o estoque inicial: ");
-                cadastrarProduto();
+                cadastrarProduto(descricaoProduto, valorCompra, valorVenda, estoque);
                 break;
             case 2:
                 cadastrarCompra();
