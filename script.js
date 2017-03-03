@@ -48,20 +48,21 @@ function cadastrarCompra(produto) {
  * @returns {Boolean}
  */
 function realizarVenda() {
-    produto = solicitarProduto(listaProdutos);
+    produto = solicitarProduto();
     if (produto == null) {
         alert("Produto não cadastrado");
+        return false;
     }
     quantidadeVenda = prompt("Informe a quantidade a ser vendida do produto \"" + produto.descricao + "\": ");
-
     quantidadeVenda = parseFloat(quantidadeVenda);
-
-    if (quantidadeVenda > descricaoProduto.estoque) {
+    
+    if (quantidadeVenda > produto.estoque) {
         alert("Não possui essa quantidade em estoque");
         return false;
     }
 
     produto.estoque -= quantidadeVenda;
+    preco = quantidadeVenda * produto.valorVenda;
     listaVendas.push(realizarVenda);
     alert("Venda efetuada com sucesso");
 }
