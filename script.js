@@ -1,49 +1,57 @@
-do{
+var listaProdutos = [];
+var listaCompras = [];
+var listaVendas = [];
 
-  var mensage = "1 - produto   \n" +
-    	          "2 - compra    \n" +
-                "3 - venda     \n" +
-                "4 - relatorio \n" +
-                "0 - sair      \n" +
-                "Selecione uma opcao";
+function aplicacao() {
+    do {
 
-  opcao = prompt(mensage,"");
+        var mensage = "1 - produto   \n" +
+            "2 - compra    \n" +
+            "3 - venda     \n" +
+            "4 - relatorio \n" +
+            "0 - sair      \n" +
+            "Selecione uma opcao";
 
-  opcao = parseInt(opcao);
-  switch (opcao) {
-    case 1:
+        opcao = prompt(mensage, "");
 
-    break;
-    case 2:
+        opcao = parseInt(opcao);
+        switch (opcao) {
+            case 1:
 
-    break;
+                break;
+            case 2:
 
-    case 3:
+                break;
 
-    break;
+            case 3:
 
-    case 4:
-    var opcaoRelatorio = prompt("1 - produtos  \n" +
-                                "2 - compras   \n" +
-                                "3 - vendas    \n" );
+                break;
 
-    switch (parseInt(opcaoRelatorio)) {
-      case 1:
+            case 4:
+                var opcaoRelatorio = prompt("1 - produtos  \n" +
+                    "2 - compras   \n" +
+                    "3 - vendas    \n");
 
-      break;
+                switch (parseInt(opcaoRelatorio)) {
+                    case 1:
 
-      case 2:
+                        break;
 
-      break;
+                    case 2:
 
-      case 3:
+                        break;
 
-      break;
-    }default:
+                    case 3:
 
-    break;
+                        break;
+                }
+            default:
 
-  }
+                break;
 
+        }
 
-}while(opcao !==0);
+    } while (opcao !== 0);
+}
+
+aplicacao();
