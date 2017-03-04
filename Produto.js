@@ -15,10 +15,33 @@ function Produto(codigo, descricao, valorCompra, valorVenda, estoqueInicial) {
 Array.prototype.buscarProduto = function (searchValue) {
     var produtoRetorno = null;
 
-    this.forEach(function (produto) {
-        if (produto.descricao === searchValue || produto.codigo === searchValue)
+    var i = 0;
+    while (i < this.length && !produtoRetorno) {
+        var produto = this[i];
+        if (produto.descricao === searchValue || produto.codigo === searchValue) {
             produtoRetorno = produto;
-    });
+            break;
+        }
+        i++;
+    }
 
     return produtoRetorno;
+}
+
+/**
+ * Retorna a posição do produto a partir de um valor de busca
+ * @param searchValue - Código ou descrição do produto
+ * @returns {number}
+ */
+Array.prototype.buscarIndiceProduto = function (searchValue) {
+    var indice = -1;
+
+    var i = 0;
+    while(i< this.length && indice < 0){
+        var produto = this[i];
+        if (produto.descricao === searchValue || produto.codigo === searchValue)
+            indice = i;
+    }
+
+    return indice;
 }
