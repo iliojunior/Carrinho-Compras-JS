@@ -57,26 +57,24 @@ function cadastrarCompra(produto) {
  * Realiza o uma nova venda
  * @returns {Boolean}
  */
-function realizarVenda() {
-    produto = solicitarProduto();
-    if (produto == null) {
+function realizarVenda(produto) {
+
+    if (!produto) {
         alert("Produto não cadastrado");
         return false;
     }
-    quantidadeVenda = prompt("Informe a quantidade a ser vendida do produto \"" + produto.descricao + "\": ");
-    quantidadeVenda = parseFloat(quantidadeVenda);
-    
-    if (quantidadeVenda > produto.estoque) {
-        alert("Não possui essa quantidade em estoque");
+
+    quantidade = prompt("Informe a quantidade");
+
+    if(quantidade > produto.estoque){
+        alert("Sem estoque");
         return false;
     }
-
-    produto.estoque -= quantidadeVenda;
-    preco = quantidadeVenda * produto.valorVenda;
-    listaVendas.push(realizarVenda);
-    alert("Venda efetuada com sucesso");
-}
-
+    var novoEstoque = produto.estoque - quantidade;
+    Venda(produto.codigo, quantidade, novoEstoque);
+    produto.estoque = novoEstoque;
+    alert("Venda realizada com sucesso");
+  }
 /**
  * Gera o relatório dos produtos cadastrados
  */
@@ -120,11 +118,13 @@ function gerarRelatorioCompras(produto) {
  * Gera o relatório das vendas realizadas
  */
 function gerarRelatorioVendas() {
-    listaVendas.forEach(function (item) {
-        mensagemSaida += "Quantidade de vendas: " + item.quantidadeVenda;
-        mensagemSaida += "\n";
-    });
-    alert(mensagemSaida);
+    if (listaCompras.isEmpty()) {
+        alert("A lista de compras está vazia!");
+    return;
+    }
+
+    var mensagemSaida = "Relatorio de vendas: ";
+
 }
 
 /**
@@ -160,7 +160,8 @@ function aplicacao() {
                 cadastrarCompra(produto);
                 break;
             case 3:
-                realizarVenda();
+                var produto = solicitarProduto();
+                realizarVenda(produto);
                 break;
 
             case 4:
