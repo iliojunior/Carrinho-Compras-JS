@@ -57,26 +57,24 @@ function cadastrarCompra(produto) {
  * Realiza o uma nova venda
  * @returns {Boolean}
  */
-function realizarVenda() {
-    produto = solicitarProduto();
-    if (produto == null) {
+function realizarVenda(produto) {
+
+    if (!produto) {
         alert("Produto não cadastrado");
         return false;
     }
-    quantidadeVenda = prompt("Informe a quantidade a ser vendida do produto \"" + produto.descricao + "\": ");
-    quantidadeVenda = parseFloat(quantidadeVenda);
 
-    if (quantidadeVenda > produto.estoque) {
-        alert("Não possui essa quantidade em estoque");
+    quantidade = prompt("Informe a quantidade");
+
+    if(quantidade > produto.estoque){
+        alert("Sem estoque");
         return false;
     }
-
-    produto.estoque -= quantidadeVenda;
-    preco = quantidadeVenda * produto.valorVenda;
-    listaVendas.push(realizarVenda);
-    alert("Venda efetuada com sucesso");
-}
-
+    var novoEstoque = produto.estoque - quantidade;
+    Venda(produto.codigo, quantidade, novoEstoque);
+    produto.estoque = novoEstoque;
+    alert("Venda realizada com sucesso");
+  }
 /**
  * Gera o relatório dos produtos cadastrados
  */
@@ -120,50 +118,15 @@ function gerarRelatorioCompras(produto) {
  * Gera o relatório das vendas realizadas
  */
 function gerarRelatorioVendas() {
-    listaVendas.forEach(function (item) {
-        mensagemSaida += "Quantidade de vendas: " + item.quantidadeVenda;
-        mensagemSaida += "\n";
-    });
-    alert(mensagemSaida);
-}
-
-/**
- * Remove um produto de acordo com o produto passado como parametro
- * @param produto
- */
-function removerProduto(produto) {
-    if (!produto) {
-        alert("Produto inválido!");
-        return false;
+    if (listaCompras.isEmpty()) {
+        alert("A lista de compras está vazia!");
+    return;
     }
 
-    var indiceProduto = listaProdutos.buscarIndiceProduto(produto.codigo);
-    listaProdutos.splice(indiceProduto, 1);
-    return true;
+    var mensagemSaida = "Relatorio de vendas: ";
+
 }
 
-function gerarRelatorioMovimentacao(produto) {
-    if (!produto) {
-        alert("Produto inválido!");
-        return false;
-    }
-
-    var compras = listaCompras.buscarMovimentoPeloCodigoProduto(produto.codigo);
-    var vendas = listaVendas.buscarMovimentoPeloCodigoProduto(produto.codigo);
-    var mensagemSaida = "Lista de movimentações \n";
-
-    mensagemSaida += "Produto: " + produto.descricao + " Qtd Inicial: " + produto.estoqueInicial + "\n";
-    compras.forEach(function (item) {
-        mensagemSaida += "Compra | Qtd: " + item.quantidade + " | Saldo: " + item.saldoAtual;
-        mensagemSaida += "\n";
-    });
-    vendas.forEach(function (item) {
-        mensagemSaida += "Venda | Qtd: " + item.quantidade + " | Saldo: " + item.saldoAtual;
-        mensagemSaida += "\n";
-    });
-
-    alert(mensagemSaida);
-}
 /**
  * Função principal de todo meu carrinho de compras
  */
@@ -182,46 +145,29 @@ function aplicacao() {
         opcao = parseInt(opcao);
         switch (opcao) {
             case 1:
-                var opcaoProduto = prompt("1 - Novo \n" +
-                    "2 - Excluir \n" +
-                    "3 - Sair");
+                var codigoProduto = prompt("Informe o código do Produto: ", "");
+                var descricaoProduto = prompt("Informe a descricao do Produto: ", "");
+                var valorCompra = prompt("Informe o valor de compra: ", "");
+                var valorVenda = prompt("Informe o valor de venda: ", "");
+                var estoque = prompt("Informe o estoque inicial: ");
 
-                opcaoProduto = parseInt(opcaoProduto);
+                var novoProduto = new Produto(codigoProduto, descricaoProduto, valorCompra, valorVenda, estoque);
 
-                switch (opcaoProduto) {
-                    case 1:
-                        var codigoProduto = prompt("Informe o código do Produto: ", "");
-                        var descricaoProduto = prompt("Informe a descricao do Produto: ", "");
-                        var valorCompra = prompt("Informe o valor de compra: ", "");
-                        var valorVenda = prompt("Informe o valor de venda: ", "");
-                        var estoque = prompt("Informe o estoque inicial: ");
-
-                        var novoProduto = new Produto(codigoProduto, descricaoProduto, valorCompra, valorVenda, estoque);
-
-                        cadastrarProduto(novoProduto);
-                        break;
-
-                    case 2:
-                        var produto = solicitarProduto();
-
-                        removerProduto(produto);
-                        break;
-                }
-
+                cadastrarProduto(novoProduto);
                 break;
             case 2:
                 var produto = solicitarProduto();
                 cadastrarCompra(produto);
                 break;
             case 3:
-                realizarVenda();
+                var produto = solicitarProduto();
+                realizarVenda(produto);
                 break;
 
             case 4:
                 var opcaoRelatorio = prompt("1 - produtos  \n" +
                     "2 - compras   \n" +
-                    "3 - vendas    \n" +
-                    "4 - Movimento de Produto");
+                    "3 - vendas    \n");
 
                 switch (parseInt(opcaoRelatorio)) {
                     case 1:
@@ -236,13 +182,7 @@ function aplicacao() {
                     case 3:
                         gerarRelatorioVendas();
                         break;
-
-                    case 4:
-                        var produto = solicitarProduto();
-                        gerarRelatorioMovimentacao(produto);
-                        break;
                 }
-
             default:
 
                 break;
