@@ -15,6 +15,7 @@ function solicitarProduto() {
 
     return listaProdutos.buscarProduto(descricaoProduto);
 }
+
 /**
  * Realiza o cadastro de um novo descricaoProduto
  * @param {string} descricao - Descrição do descricaoProduto a ser cadastrado
@@ -23,9 +24,13 @@ function solicitarProduto() {
  * @param {double} estoqueInicial - Estoque inicial do descricaoProduto a ser cadastrado
  * @returns {void}
  */
-function cadastrarProduto(descricao, valorCompra, valorVenda, estoqueInicial) {
-    var novoProduto = new Produto(descricao, valorCompra, valorVenda, estoqueInicial);
-    listaProdutos.push(novoProduto);
+function cadastrarProduto(produto) {
+    if (!produto) {
+        alert("Produto invalido!!!");
+        return;
+    }
+
+    listaProdutos.push(produto);
 }
 
 /**
@@ -33,14 +38,19 @@ function cadastrarProduto(descricao, valorCompra, valorVenda, estoqueInicial) {
  */
 function cadastrarCompra(produto) {
     if (!produto) {
-        alert("Produto não cadastrado");
+        alert("Produto inválido");
+        return false;
     }
 
-    quantidadeCompra = prompt("Informe a quantidade comprada do produto \"" + produto.descricao + "\": ", "");
-    realizarCompra = descricaoProduto.estoque = parseInt(descricaoProduto.estoque) + parseInt(quantidadeCompra);
+    var quantidadeCompra = prompt("Informe a quantidade comprada do produto \"" + produto.descricao + "\": ", "");
+    var novoSaldoProduto = produto.estoque + quantidadeCompra;
+    var novaCompra = new Compra(produto.codigo, quantidadeCompra, novoSaldoProduto);
 
-    produto.estoque += quantidadeCompra;
-    listaCompras.push(realizarCompra);
+    produto.estoque = novoSaldoProduto;
+
+    listaCompras.push(novaCompra);
+
+    return true;
 }
 
 /**
@@ -77,6 +87,7 @@ function gerarRelatorioProdutos() {
         mensagemSaida += " | Compra R$: " + item.valorCompra;
         mensagemSaida += " | Venda R$: " + item.valorVenda;
         mensagemSaida += " | Estoque: " + item.estoque;
+        mensagemSaida += " | Estoque Inicial: " + item.estoqueInicial;
         mensagemSaida += "\n";
     });
 
@@ -86,11 +97,18 @@ function gerarRelatorioProdutos() {
 /**
  * Gera o relatório das compras realizadas
  */
-function gerarRelatorioCompras() {
+function gerarRelatorioCompras(produto) {
+    if (listaCompras.isEmpty()) {
+        alert("A lista de compras está vazia!");
+        return;
+    }
+
     var mensagemSaida = "Lista de Compras \n";
 
-    listaCompras.forEach(function (item) {
-        mensagemSaida += "Quantidade de comprada: " + item.quantidadeCompra;
+    var comprasByProduto = listaCompras.buscarComprasPeloCodigoProduto(produto.codigo);
+
+    comprasByProduto.forEach(function (item) {
+        mensagemSaida += "Quantidade de comprada: " + item.quantidade;
         mensagemSaida += "\n";
     });
 
@@ -126,12 +144,15 @@ function aplicacao() {
         opcao = parseInt(opcao);
         switch (opcao) {
             case 1:
+                var codigoProduto = prompt("Informe o código do Produto: ", "");
                 var descricaoProduto = prompt("Informe a descricao do Produto: ", "");
                 var valorCompra = prompt("Informe o valor de compra: ", "");
                 var valorVenda = prompt("Informe o valor de venda: ", "");
                 var estoque = prompt("Informe o estoque inicial: ");
 
-                cadastrarProduto(descricaoProduto, valorCompra, valorVenda, estoque);
+                var novoProduto = new Produto(codigoProduto, descricaoProduto, valorCompra, valorVenda, estoque);
+
+                cadastrarProduto(novoProduto);
                 break;
             case 2:
                 var produto = solicitarProduto();
@@ -152,7 +173,8 @@ function aplicacao() {
                         break;
 
                     case 2:
-                        gerarRelatorioCompras();
+                        var produto = solicitarProduto();
+                        gerarRelatorioCompras(produto);
                         break;
 
                     case 3:
