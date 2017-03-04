@@ -66,13 +66,15 @@ function realizarVenda(produto) {
 
     quantidade = prompt("Informe a quantidade");
 
-    if(quantidade > produto.estoque){
+    if(parseFloat(quantidade) > produto.estoque){
         alert("Sem estoque");
         return false;
     }
     var novoEstoque = produto.estoque - quantidade;
-    Venda(produto.codigo, quantidade, novoEstoque);
+    var valorVenda = produto.valorVenda * quantidade;
+    var novaVenda = new Venda(produto.codigo, quantidade, novoEstoque, valorVenda);
     produto.estoque = novoEstoque;
+    listaVendas.push(novaVenda);
     alert("Venda realizada com sucesso");
   }
 /**
@@ -104,7 +106,7 @@ function gerarRelatorioCompras(produto) {
 
     var mensagemSaida = "Lista de Compras \n";
 
-    var comprasByProduto = listaCompras.buscarComprasPeloCodigoProduto(produto.codigo);
+    var comprasByProduto = listaCompras.buscarMovimentoPeloCodigoProduto(produto.codigo);
 
     comprasByProduto.forEach(function (item) {
         mensagemSaida += "Quantidade de comprada: " + item.quantidade;
@@ -117,11 +119,21 @@ function gerarRelatorioCompras(produto) {
 /**
  * Gera o relatório das vendas realizadas
  */
-function gerarRelatorioVendas() {
-    if (listaCompras.isEmpty()) {
-        alert("A lista de compras está vazia!");
+function gerarRelatorioVendas(produto) {
+    if (listaVendas.isEmpty()) {
+        alert("A lista de vendas está vazia!");
     return;
     }
+
+    var vendasByProduto = listaVendas.buscarMovimentoPeloCodigoProduto(produto.codigo);
+    var somaVendas =0;
+    vendasByProduto.forEach(function(item){
+        somaVendas += item.valorTotal;
+        var produto = listaProdutos.buscarProduto(item.produto);
+        console.log(produto.descricao + " " + item.valor);
+    });
+    console.log(produto.descricao + " " + somaVendas);
+
 
     var mensagemSaida = "Relatorio de vendas: ";
 
@@ -166,8 +178,8 @@ function aplicacao() {
 
             case 4:
                 var opcaoRelatorio = prompt("1 - produtos  \n" +
-                    "2 - compras   \n" +
-                    "3 - vendas    \n");
+                                            "2 - compras   \n" +
+                                            "3 - vendas    \n");
 
                 switch (parseInt(opcaoRelatorio)) {
                     case 1:
@@ -180,7 +192,8 @@ function aplicacao() {
                         break;
 
                     case 3:
-                        gerarRelatorioVendas();
+                        var produto = solicitarProduto();
+                        gerarRelatorioVendas(produto);
                         break;
                 }
             default:
