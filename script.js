@@ -142,6 +142,28 @@ function removerProduto(produto) {
     return true;
 }
 
+function gerarRelatorioMovimentacao(produto) {
+    if (!produto) {
+        alert("Produto inválido!");
+        return false;
+    }
+
+    var compras = listaCompras.buscarMovimentoPeloCodigoProduto(produto.codigo);
+    var vendas = listaVendas.buscarMovimentoPeloCodigoProduto(produto.codigo);
+    var mensagemSaida = "Lista de movimentações \n";
+
+    mensagemSaida += "Produto: " + produto.descricao + " Qtd Inicial: " + produto.estoqueInicial + "\n";
+    compras.forEach(function (item) {
+        mensagemSaida += "Compra | Qtd: " + item.quantidade + " | Saldo: " + item.saldoAtual;
+        mensagemSaida += "\n";
+    });
+    vendas.forEach(function (item) {
+        mensagemSaida += "Venda | Qtd: " + item.quantidade + " | Saldo: " + item.saldoAtual;
+        mensagemSaida += "\n";
+    });
+
+    alert(mensagemSaida);
+}
 /**
  * Função principal de todo meu carrinho de compras
  */
@@ -198,7 +220,8 @@ function aplicacao() {
             case 4:
                 var opcaoRelatorio = prompt("1 - produtos  \n" +
                     "2 - compras   \n" +
-                    "3 - vendas    \n");
+                    "3 - vendas    \n" +
+                    "4 - Movimento de Produto");
 
                 switch (parseInt(opcaoRelatorio)) {
                     case 1:
@@ -212,6 +235,11 @@ function aplicacao() {
 
                     case 3:
                         gerarRelatorioVendas();
+                        break;
+
+                    case 4:
+                        var produto = solicitarProduto();
+                        gerarRelatorioMovimentacao(produto);
                         break;
                 }
 
