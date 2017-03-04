@@ -65,7 +65,7 @@ function realizarVenda() {
     }
     quantidadeVenda = prompt("Informe a quantidade a ser vendida do produto \"" + produto.descricao + "\": ");
     quantidadeVenda = parseFloat(quantidadeVenda);
-    
+
     if (quantidadeVenda > produto.estoque) {
         alert("Não possui essa quantidade em estoque");
         return false;
@@ -128,6 +128,21 @@ function gerarRelatorioVendas() {
 }
 
 /**
+ * Remove um produto de acordo com o produto passado como parametro
+ * @param produto
+ */
+function removerProduto(produto) {
+    if (!produto) {
+        alert("Produto inválido!");
+        return false;
+    }
+
+    var indiceProduto = listaProdutos.buscarIndiceProduto(produto.codigo);
+    listaProdutos.splice(indiceProduto, 1);
+    return true;
+}
+
+/**
  * Função principal de todo meu carrinho de compras
  */
 function aplicacao() {
@@ -145,15 +160,32 @@ function aplicacao() {
         opcao = parseInt(opcao);
         switch (opcao) {
             case 1:
-                var codigoProduto = prompt("Informe o código do Produto: ", "");
-                var descricaoProduto = prompt("Informe a descricao do Produto: ", "");
-                var valorCompra = prompt("Informe o valor de compra: ", "");
-                var valorVenda = prompt("Informe o valor de venda: ", "");
-                var estoque = prompt("Informe o estoque inicial: ");
+                var opcaoProduto = prompt("1 - Novo \n" +
+                    "2 - Excluir \n" +
+                    "3 - Sair");
 
-                var novoProduto = new Produto(codigoProduto, descricaoProduto, valorCompra, valorVenda, estoque);
+                opcaoProduto = parseInt(opcaoProduto);
 
-                cadastrarProduto(novoProduto);
+                switch (opcaoProduto) {
+                    case 1:
+                        var codigoProduto = prompt("Informe o código do Produto: ", "");
+                        var descricaoProduto = prompt("Informe a descricao do Produto: ", "");
+                        var valorCompra = prompt("Informe o valor de compra: ", "");
+                        var valorVenda = prompt("Informe o valor de venda: ", "");
+                        var estoque = prompt("Informe o estoque inicial: ");
+
+                        var novoProduto = new Produto(codigoProduto, descricaoProduto, valorCompra, valorVenda, estoque);
+
+                        cadastrarProduto(novoProduto);
+                        break;
+
+                    case 2:
+                        var produto = solicitarProduto();
+
+                        removerProduto(produto);
+                        break;
+                }
+
                 break;
             case 2:
                 var produto = solicitarProduto();
@@ -182,6 +214,7 @@ function aplicacao() {
                         gerarRelatorioVendas();
                         break;
                 }
+
             default:
 
                 break;
